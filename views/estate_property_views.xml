@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="test_model_action" model="ir.actions.act_window">
+    <field name="name">Test action</field>
+    <field name="res_model">test.model_manuel</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<record id="test_model_manuel_view_form" model="ir.ui.view">
+    <field name="name">test.model_manuel.view.form</field>
+    <field name="model">test.model_manuel</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                
+                    <group >
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="postcode"/>
+                            <field name="date_availability"/>
+                            <field name="expected_price"/>
+                            <field name="selling_price"/>
+                            <field name="bedrooms"/>
+                            <field name="living_area"/>     
+                            <field name="active"/>        
+                        </group>
+
+                        <group>
+                            <field name="date_disponibility"/>
+                            <field name="facades"/>
+                            <field name="garage"/>
+                            <field name="garden"/>
+                            <field name="garden_area"/>
+                            <field name="garden_orientation"/>
+                            <field name="avalible_date"/>
+                        </group>
+                    </group> 
+                
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<menuitem id="test_menu_root" name="Test">
+    <menuitem id="test_first_level_menu" name="First Level">
+        <menuitem id="test_model_manuel_menu_action" action="test_model_action"/>
+    </menuitem>
+</menuitem>
+
+</odoo>
