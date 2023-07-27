@@ -5,8 +5,9 @@ from dateutil.relativedelta import relativedelta
 class TestModel(models.Model):
     _name = "test.model_manuel"
     _description= "real state yisus"
+    _rec_name = 'title'
     
-    name= fields.Char(required=True)
+    title= fields.Char(required=True)
     description= fields.Text()
     postcode= fields.Char()
     date_availability=fields.Date()
@@ -23,8 +24,16 @@ class TestModel(models.Model):
         ('south', 'Sur'),
         ('east', 'Este'),
         ('west', 'Oeste')
-    ],help="Type is used to separate Leads and Opportunities")
+    ],help="cardinality")
     avalible_date= fields.Boolean()
-    date_disponibility = fields.Datetime(default=lambda self: datetime.now() + relativedelta(months=3))
+    date_disponibility = fields.Datetime(default=lambda self: datetime.now() + relativedelta(months=3), copy=False)
     active=fields.Boolean()
+    state=fields.Selection([('new', 'Nuevo'),
+                            ('offer_received', 'Oferta reservada'),
+                            ('offer_accepted','Oferta aceptada'),
+                            ('sold', 'Agotado'),
+                            ('canceled', 'Cancelado')],required=True,copy=False, default= 'new')
+    
+    buyer= fields.Many2one()
+    seller= fields.Many2one()
     

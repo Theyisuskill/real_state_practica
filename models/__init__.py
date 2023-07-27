@@ -1,1 +1,2 @@
 from.import models_real_state
+from.import state_property_type

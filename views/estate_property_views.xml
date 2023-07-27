@@ -1,53 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<record id="test_model_action" model="ir.actions.act_window">
-    <field name="name">Test action</field>
-    <field name="res_model">test.model_manuel</field>
-    <field name="view_mode">tree,form</field>
-</record>
 
-<record id="test_model_manuel_view_form" model="ir.ui.view">
-    <field name="name">test.model_manuel.view.form</field>
-    <field name="model">test.model_manuel</field>
-    <field name="arch" type="xml">
-        <form>
-            <sheet>
+    <record id="view_account_search" model="ir.ui.view">
+            <field name="name">test.model_manuel.search</field>
+            <field name="model">test.model_manuel</field>
+            <field name="arch" type="xml">
+                <search string="Real state">
+                    
+                    
+                    <field name="title" filter_domain="['|', ('title','ilike',self)]" string="title"/>
+                    <field name="postcode" filter_domain="['|', ('postcode','ilike',self)]" string="postcode"/>
+                    <field name="expected_price" filter_domain="['|', ('expected_price','ilike',self)]" string="expected price"/>
+                    <field name="bedrooms" filter_domain="['|', ('bedrooms','ilike',self)]" string="bedrooms"/>
+                    <field name="living_area" filter_domain="['|', ('living_area','ilike',self)]" string="living area"/>
+                    <field name="facades" filter_domain="['|', ('facades','ilike',self)]" string="facades"/>
                 
-                    <group >
-                        <field name="name"/>
-                        <field name="description"/>
+                    <filter string="new" name="new" domain="[('state', '=', 'new')]" />
+                    <filter string="offer received" name="offer_received" domain="[('state', '=', 'offer_received')]" />
+                    <filter string="offer accepted" name="offer_accepted" domain="[('state', '=', 'offer_accepted')]" />   
+                    <filter string="sold" name="sold" domain="[('state', '=', 'sold')]" />
+                    <filter string="canceled" name="canceled" domain="[('state', '=', 'canceled')]" />
+                    <group expand="0" string="Group By">
+                        <filter string="postcode" name="postcode" domain="" context="{'group_by':'postcode'}"/>
                     </group>
-                    <group>
-                        <group>
+                </search>
+            </field>
+        </record>
+
+    
+
+   
+
+    <record id="test_model_manuel_view_form" model="ir.ui.view">
+        <field name="name">test.model_manuel.view.form</field>
+        <field name="model">test.model_manuel</field>
+        <field name="arch" type="xml">
+        
+            <form >
+
+                <sheet>
+                        <div class="oe_title">
+                            <div class="oe_edit_only">
+                                <label for="title"/>
+                            </div>
+                            <h1 class="mb32">
+                                <field name="title" class="mb16"/>
+                            </h1>
+                            
+                        </div>
+                        <group >
+                        <group >
+                        
                             <field name="postcode"/>
-                            <field name="date_availability"/>
+                            <field name="date_disponibility"/>
+                        </group>
+                        <group >
                             <field name="expected_price"/>
                             <field name="selling_price"/>
-                            <field name="bedrooms"/>
-                            <field name="living_area"/>     
-                            <field name="active"/>        
+                            
                         </group>
+                        </group>
+                                <notebook>
+                                <page string="Description">
+                                    <group>
+                                        <group>
+                                            <field name="description"/>
+                                            <field name="date_availability"/>
+                                            <field name="bedrooms"/>
+                                            <field name="living_area"/>     
+                                            <field name="active"/>        
+                                        </group>
 
-                        <group>
-                            <field name="date_disponibility"/>
-                            <field name="facades"/>
-                            <field name="garage"/>
-                            <field name="garden"/>
-                            <field name="garden_area"/>
-                            <field name="garden_orientation"/>
-                            <field name="avalible_date"/>
-                        </group>
-                    </group> 
-                
-            </sheet>
-        </form>
+                                        <group>
+                                            <field name="avalible_date"/>
+                                        
+                                            <field name="facades"/>
+                                            <field name="garage"/>
+                                            <field name="garden_area"/>
+                                            <field name="garden_orientation"/>
+                                            <field name="state"/>
+                                        </group>
+                                        
+                                    </group> 
+                                </page>
+                                <page string="Other info">
+                                    
+                                    <group >
+                                        <field name="buyer"/>
+                                        <field name="seller"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                    
+                </sheet>
+            </form>
+            
+        </field>
+    </record>
+
+
+    <record id="test_model_manuel_view_tree" model="ir.ui.view">
+    <field name="name">test.model_manuel.view.tree</field>
+    <field name="model">test.model_manuel</field>
+    <field name="arch" type="xml">
+        <tree string="Example Tree">
+                <field name="title"/>
+                <field name="postcode"/>
+                <field name="date_availability"/>
+                <field name="expected_price"/>
+                <field name="selling_price"/>
+                <field name="bedrooms"/>
+                <field name="living_area"/>         
+                <field name="date_disponibility"/>
+                <field name="facades"/>
+                <field name="garden_area"/>
+                <field name="garden_orientation"/>
+                <field name="state"/>
+        </tree>
     </field>
-</record>
+    </record>
 
-<menuitem id="test_menu_root" name="Test">
-    <menuitem id="test_first_level_menu" name="First Level">
-        <menuitem id="test_model_manuel_menu_action" action="test_model_action"/>
-    </menuitem>
-</menuitem>
+
 
 </odoo>
