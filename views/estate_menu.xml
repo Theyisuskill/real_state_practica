@@ -11,6 +11,18 @@
         <field name="res_model">estate_property.type</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <record id="test_model_tag_action" model="ir.actions.act_window">
+        <field name="name">Property Tags</field>
+        <field name="res_model">state_property.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="test_model_offer_action" model="ir.actions.act_window">
+        <field name="name">Property offer</field>
+        <field name="res_model">state_property.offer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+   
 
     <menuitem id="test_menu_root" name="Real State">
 
@@ -20,10 +32,26 @@
 
         <menuitem id="test_2_level_menu" name="Settings" sequence="4">
             <menuitem id="menu_test_model_property_action" action="test_model_property_action"/>
+            <menuitem id="menu_test_model_tag_action" action="test_model_tag_action"/>
         </menuitem>
-        
+
+        <menuitem id="test_3_level_menu" name="offer" sequence="6">
+            <menuitem id="menu_test_model_offer_action" action="test_model_offer_action"/>
+        </menuitem>
     </menuitem>
 
+    <!-- <menuitem id="res_partner_menu_config"
+        name="Configuration"
+        parent="menu_contacts"
+        groups="base.group_system"
+        sequence="9"/>
+
+    <menuitem id="menu_localisation" name="Localization"
+        parent="res_partner_menu_config" sequence="2"/>
+
+    <menuitem id="menu_country_partner"
+        action="base.action_country" parent="menu_localisation"
+        sequence="4"/> -->
 
     
 

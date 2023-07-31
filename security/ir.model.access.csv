@@ -1,3 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_test_model_manuel_public,access_test_model_manuel,model_test_model_manuel,base.group_user,1,1,1,1
 access_test_model_property_public,access_test_model_property,model_estate_property_type,base.group_user,1,1,1,1
+access_test_model_property_tag_public, access_test_model_property_tag,model_state_property_tag,base.group_user,1,1,1,1
+access_test_model_state_property_offer_public, access_test_model_state_property_offer,model_state_property_offer,base.group_user,1,1,1,1
