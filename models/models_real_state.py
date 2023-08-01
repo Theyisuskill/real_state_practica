@@ -1,11 +1,14 @@
 from odoo import models, fields, api, exceptions
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.tools.float_utils import float_compare, float_is_zero
 
 class TestModel(models.Model):
     _name = "test.model_manuel"
     _description= "real state yisus"
     _rec_name = 'title'
+    _order = 'id desc'
+
     
     title= fields.Char(required=True)
     description= fields.Text()
@@ -30,15 +33,36 @@ class TestModel(models.Model):
     state=fields.Selection([('new', 'Nuevo'),
                             ('offer_received', 'Oferta reservada'),
                             ('offer_accepted','Oferta aceptada'),
-                            ('sold', 'Agotado'),
+                            ('sold', 'Pagado'),
                             ('canceled', 'Cancelado')],required=True,copy=False, default= 'new', readonly=True, string="State")
     
-    buyer= fields.Many2one('res.users', string='buyer', copy=False)
-    seller= fields.Many2one('res.partner', string='selesman')
+    buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
+    seller_id = fields.Many2one(
+        "res.users", string="Salesman", index=True, default=lambda self: self.env.user
+    )
     cozy_id= fields.Many2many("state_property.tag", required=True)
     new_fiel_ids = fields.One2many('state_property.offer', 'property_id', string='Offers')
     total_area=fields.Float(compute="_compute_total")
-    best_price= fields.Char(compute="_compute_description")
+    best_price= fields.Char(compute="_compute_description") 
+    property_type_id = fields.Many2one("estate_property.type")
+   
+    
+    @api.constrains('expected_price', 'selling_price')
+    def _check_selling_price(self):
+        for record in self:
+            if not float_is_zero(record.selling_price, precision_digits=2) and float_compare(record.selling_price, record.expected_price * 0.9, precision_digits=2) == -1:
+                raise exceptions.ValidationError("Selling price cannot be less than 90% of the expected price.")
+    
+    _sql_constraints = [
+        ('check_expected_price_positive',
+         'CHECK(expected_price > 0)',
+         'El precio esperado debe ser estrictamente positivo.') 
+    ]
+    _sql_constraints = [
+        ('check_selling_price_positive',
+         'CHECK(selling_price >= 0)',
+         'El precio de venta debe ser positivo.')
+    ]
     
 
     def action_cancel(self):
@@ -50,6 +74,8 @@ class TestModel(models.Model):
         if self.state == 'canceled':
             raise exceptions.UserError("Cannot mark a canceled property as sold.")
         self.state = 'sold'
+    
+    
     
     @api.depends("living_area","garden_area")
     def _compute_total(self):

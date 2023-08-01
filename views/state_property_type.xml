@@ -16,12 +16,34 @@
                             </h1>
                             
                         </div>
-                    <group>
-                        <field name="postcode"/>
-                    </group>
+                        <notebook>
+                            <page string="Propiedades">
+                                <field name="property_ids">
+                                    <tree>
+                                        <field name="title" /> 
+                                        <field name="selling_price" />
+                                        <field name="state" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                 </sheet>
             </form>
         </field>
      </record>
 
+
+    <record id="estate_property_type_tree" model="ir.ui.view">
+        <field name="name">estate_property.type.view.tree</field>
+        <field name="model">estate_property.type</field>
+        <field name="arch" type="xml">
+            <tree string="manuality">
+                <field name="name"/>
+                <field name="sequence" widget="handle"/>
+                
+
+            </tree>
+        </field>
+    </record>    
 </odoo>
+
