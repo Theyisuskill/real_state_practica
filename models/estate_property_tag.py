@@ -8,6 +8,7 @@ class property_tag(models.Model):
     _order = 'name'
     
     name= fields.Char()
+    color=fields.Integer()
     
     _sql_constraints = [
         ('unique_tag_name',

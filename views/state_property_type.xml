@@ -18,7 +18,7 @@
                         </div>
                         <notebook>
                             <page string="Propiedades">
-                                <field name="property_ids">
+                                <field name="property_ids" >
                                     <tree>
                                         <field name="title" /> 
                                         <field name="selling_price" />

@@ -20,7 +20,8 @@ class TestModel(models.Model):
     living_area = fields.Integer()
     facades = fields.Integer()
     garage = fields.Boolean()
-    garden_area = fields.Integer()
+    garden=fields.Boolean()
+    garden_area = fields.Integer(attrs="{'invisible': [('garden', '=', False)]}")
     garden_orientation = fields.Selection([
         ('north', 'Norte'),
         ('south', 'Sur'),
@@ -31,20 +32,22 @@ class TestModel(models.Model):
     date_disponibility = fields.Datetime(default=lambda self: datetime.now() + relativedelta(months=3), copy=False)
     active=fields.Boolean()
     state=fields.Selection([('new', 'Nuevo'),
-                            ('offer_received', 'Oferta reservada'),
-                            ('offer_accepted','Oferta aceptada'),
+                            ('offer_received', ' reservada'),
+                            ('offer_accepted',' aceptada'),
                             ('sold', 'Pagado'),
-                            ('canceled', 'Cancelado')],required=True,copy=False, default= 'new', readonly=True, string="State")
+                            ('canceled', 'Cancelado')],required=True,copy=False, default= 'new', readonly=True, string="State",
+                            attrs="{'invisible': [('refused', '=', False)]}")
     
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     seller_id = fields.Many2one(
         "res.users", string="Salesman", index=True, default=lambda self: self.env.user
     )
-    cozy_id= fields.Many2many("state_property.tag", required=True)
+    cozy_id= fields.Many2many("state_property.tag", required=True, )
     new_fiel_ids = fields.One2many('state_property.offer', 'property_id', string='Offers')
     total_area=fields.Float(compute="_compute_total")
     best_price= fields.Char(compute="_compute_description") 
-    property_type_id = fields.Many2one("estate_property.type")
+    property_type_id = fields.Many2one("estate_property.type", )
+    
    
     
     @api.constrains('expected_price', 'selling_price')

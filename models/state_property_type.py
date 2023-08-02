@@ -10,7 +10,7 @@ class property_type(models.Model):
   
     name= fields.Char(required=True) 
     sequence = fields.Integer('Sequence' )
-    property_ids=fields.One2many('test.model_manuel', 'property_type_id')
+    property_ids=fields.One2many('test.model_manuel', 'property_type_id', )
     
 
     _sql_constraints = [
