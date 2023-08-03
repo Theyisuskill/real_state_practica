@@ -20,11 +20,12 @@
         <field name="name">state_property.offer.view.tree</field>
         <field name="model">state_property.offer</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree editable='top' decoration-success="state=='accepted'"  decoration-danger="state=='refused'">
                 <field name="price"></field>
                 <field name="partner_id"></field>
                 <field name="property_id"></field> 
-                <field name="state"/>
+                <field name="state" invisible="1"/>
+                <field name="property_type_id" />
             </tree>
         </field>
     </record>

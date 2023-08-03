@@ -21,6 +21,10 @@ class TestModel(models.Model):
     facades = fields.Integer()
     garage = fields.Boolean()
     garden=fields.Boolean()
+<<<<<<< HEAD
+=======
+    garden=fields.Boolean()
+>>>>>>> 843d3e8 (cambio del dia ago 3)
     garden_area = fields.Integer()
     garden_orientation = fields.Selection([
         ('north', 'Norte'),
@@ -35,8 +39,8 @@ class TestModel(models.Model):
                             ('offer_received', ' reservada'),
                             ('offer_accepted',' aceptada'),
                             ('sold', 'Pagado'),
-                            ('canceled', 'Cancelado')],required=True,copy=False, default= 'new', readonly=True, string="State",
-                            attrs="{'invisible': [('refused', '=', False)]}")
+                            ('canceled', 'Cancelado')
+                            ],required=True,copy=False, default= 'new', readonly=True, string="State")
     
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     seller_id = fields.Many2one(

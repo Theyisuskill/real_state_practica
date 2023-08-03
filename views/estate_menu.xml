@@ -4,6 +4,7 @@
         <field name="name">Real State</field>
         <field name="res_model">test.model_manuel</field>
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_avalible': True}</field>
     </record>
 
     <record id="test_model_property_action" model="ir.actions.act_window">
@@ -11,6 +12,7 @@
         <field name="res_model">estate_property.type</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <record id="test_model_tag_action" model="ir.actions.act_window">
         <field name="name">Property Tags</field>
         <field name="res_model">state_property.tag</field>
@@ -40,4 +42,10 @@
         </menuitem>
     </menuitem>
 
+<<<<<<< HEAD
+=======
+   
+    
+
+>>>>>>> 843d3e8 (cambio del dia ago 3)
 </odoo>

@@ -18,8 +18,17 @@ class property_offer(models.Model):
     create_date = fields.Date(string='Create Date', default=fields.Date.context_today)
     validity = fields.Integer(string='Validity', default=7)
     date_deadline = fields.Date(string='Deadline Date', compute='_compute_date_deadline', inverse='_inverse_date_deadline', store=True)
+    property_type_id = fields.Many2one('estate_property.type', string='Property Type', related='property_id.property_type_id', store=True)
 
 
+    _sql_constraints = [
+        ('check_price_positive',
+         'CHECK(price >= 0)',
+         'El precio de venta debe ser positivo.')
+    ]
+    
+    
+    
     @api.depends('create_date', 'validity')
     def _compute_date_deadline(self):
         for record in self:
@@ -37,7 +46,6 @@ class property_offer(models.Model):
 
         self.property_id.state = 'offer_accepted'
         self.state = 'accepted'
-        self.state = "accepted"
         self.property_id.buyer_id = self.partner_id.id
         self.property_id.selling_price = self.price
         # self.property_id.selling_price = self.action_mark_as_sold
@@ -46,4 +54,9 @@ class property_offer(models.Model):
     def reject_offer(self):
         self.ensure_one()
         self.state = "refused"
+        
 
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 843d3e8 (cambio del dia ago 3)
