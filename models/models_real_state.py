@@ -21,7 +21,7 @@ class TestModel(models.Model):
     facades = fields.Integer()
     garage = fields.Boolean()
     garden=fields.Boolean()
-    garden_area = fields.Integer(attrs="{'invisible': [('garden', '=', False)]}")
+    garden_area = fields.Integer()
     garden_orientation = fields.Selection([
         ('north', 'Norte'),
         ('south', 'Sur'),
@@ -47,7 +47,6 @@ class TestModel(models.Model):
     total_area=fields.Float(compute="_compute_total")
     best_price= fields.Char(compute="_compute_description") 
     property_type_id = fields.Many2one("estate_property.type", )
-    
    
     
     @api.constrains('expected_price', 'selling_price')
@@ -95,9 +94,9 @@ class TestModel(models.Model):
             prices=record.new_fiel_ids.mapped("price")
             record.best_price= max(prices) if prices else 0.0
     
-    @api.onchange('garage')
+    @api.onchange('garden')
     def _onchange_has_garden(self):
-        if self.garage:
+        if self.garden:
             self.garden_area = 10.0
             self.garden_orientation = 'north'
         else:

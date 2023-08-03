@@ -43,21 +43,7 @@ class property_offer(models.Model):
         # self.property_id.selling_price = self.action_mark_as_sold
 
 
-
     def reject_offer(self):
         self.ensure_one()
         self.state = "refused"
 
-
-    @api.depends('accept_offer', 'reject_offer')
-    def _compute_botones_visibles(self):
-        for record in self:
-            if record.campo_1 == 'accepted':
-                record.boton_1_visible = False
-            else:
-                record.boton_1_visible = True
-
-            if record.campo_2 == 'refused':
-                record.boton_2_visible = False
-            else:
-                record.boton_2_visible = True

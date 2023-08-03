@@ -40,21 +40,4 @@
         </menuitem>
     </menuitem>
 
-    <!-- <menuitem id="res_partner_menu_config"
-        name="Configuration"
-        parent="menu_contacts"
-        groups="base.group_system"
-        sequence="9"/>
-
-    <menuitem id="menu_localisation" name="Localization"
-        parent="res_partner_menu_config" sequence="2"/>
-
-    <menuitem id="menu_country_partner"
-        action="base.action_country" parent="menu_localisation"
-        sequence="4"/> -->
-
-    
-
 </odoo>
-
-

@@ -16,8 +16,6 @@
             </form>
         </field>
     </record>
-
-
     <record id="state_property_offer_view_tree" model="ir.ui.view">
         <field name="name">state_property.offer.view.tree</field>
         <field name="model">state_property.offer</field>
