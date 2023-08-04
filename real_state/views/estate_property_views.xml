@@ -93,18 +93,11 @@
                                     <field name="price"/>
                                     <field name="date_deadline" />
                                     <field name="validity"/>
-<<<<<<< HEAD
                                     <field name="state"/>
-                                    <button class="oe_stat_button" name="accept_offer" state="accepted" type="object" icon="fa-check" groups="base.group_user" 
-                                    />
-                                    <button class="oe_stat_button" name="reject_offer" state="refused" type="object" icon="fa-times" groups="base.group_user" 
-                                    />
-=======
                                     <field name="state" invisible="1"/>
                                     <button class="oe_stat_button" name="accept_offer" attrs="{'invisible': ['|', ('state','=','accepted'), ('state','=','refused')]}" state="accepted" type="object" icon="fa-check" groups="base.group_user" aria-label="Confirm" title="Confirm A" />
                                     <button class="oe_stat_button" name="reject_offer" attrs="{'invisible': ['|', ('state','=','accepted'), ('state','=','refused')]}" state="refused" type="object" icon="fa-times" groups="base.group_user" aria-label="Resfused" title="Refused A" />
                                     <field name="property_id" invisible="1"/>
->>>>>>> 843d3e8 (cambio del dia ago 3)
                                 </tree>
                             </field>
                         </page>

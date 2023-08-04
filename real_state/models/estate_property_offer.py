@@ -1,6 +1,6 @@
 from odoo import fields, models, api, exceptions
 from datetime import timedelta
-
+from odoo.exceptions import UserError
 
 
 class property_offer(models.Model):
@@ -56,7 +56,21 @@ class property_offer(models.Model):
         self.state = "refused"
         
 
-<<<<<<< HEAD
-=======
-    
->>>>>>> 843d3e8 (cambio del dia ago 3)
+    @api.model
+    def create(self, vals):
+        # Obtener la propiedad asociada a la oferta
+        property_id = vals.get('property_id')
+        property = self.env['test.model_manuel'].browse(property_id)
+
+        # Verificar si el importe de la oferta es inferior al de una oferta existente
+        existing_offer = self.search([('property_id', '=', property_id)], order='price desc', limit=1)
+        if existing_offer and vals.get('price') < existing_offer.price:
+            raise UserError(('No puedes crear una oferta con un importe inferior al de una oferta existente.'))
+
+        # Crear la oferta
+        offer = super(property_offer, self).create(vals)
+
+        # Establecer el estado de la propiedad en "Oferta recibida"
+        property.state = 'offer_received'
+
+        return offer

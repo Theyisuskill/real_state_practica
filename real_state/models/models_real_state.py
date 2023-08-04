@@ -1,7 +1,8 @@
 from odoo import models, fields, api, exceptions
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.tools.float_utils import float_compare, float_is_zero
+from odoo.exceptions import UserError
 
 class TestModel(models.Model):
     _name = "test.model_manuel"
@@ -21,10 +22,6 @@ class TestModel(models.Model):
     facades = fields.Integer()
     garage = fields.Boolean()
     garden=fields.Boolean()
-<<<<<<< HEAD
-=======
-    garden=fields.Boolean()
->>>>>>> 843d3e8 (cambio del dia ago 3)
     garden_area = fields.Integer()
     garden_orientation = fields.Selection([
         ('north', 'Norte'),
@@ -44,14 +41,23 @@ class TestModel(models.Model):
     
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     seller_id = fields.Many2one(
-        "res.users", string="Salesman", index=True, default=lambda self: self.env.user
-    )
+        "res.users", string="Salesman", index=True, default=lambda self: self.env.user)
     cozy_id= fields.Many2many("state_property.tag", required=True, )
     new_fiel_ids = fields.One2many('state_property.offer', 'property_id', string='Offers')
     total_area=fields.Float(compute="_compute_total")
     best_price= fields.Char(compute="_compute_description") 
     property_type_id = fields.Many2one("estate_property.type", )
-   
+    move_type = fields.Selection(selection=[
+        ('entry', 'Journal Entry'),
+        ('out_invoice', 'Customer Invoice'),
+        ('out_refund', 'Customer Credit Note'),
+        ('in_invoice', 'Vendor Bill'),
+        ('in_refund', 'Vendor Credit Note'),
+        ('out_receipt', 'Sales Receipt'),
+        ('in_receipt', 'Purchase Receipt'),
+    ], string='Type', required=True, store=True, index=True, readonly=True, tracking=True,
+    default="entry", change_default=True)
+
     
     @api.constrains('expected_price', 'selling_price')
     def _check_selling_price(self):
@@ -106,3 +112,11 @@ class TestModel(models.Model):
         else:
             self.garden_area = 0.0
             self.garden_orientation = False
+    
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_not_new_or_cancelled(self):
+        for record in self:
+            if record.state not in ['new', 'canceled']:
+                raise UserError(('No puedes eliminar una propiedad si su estado no es "Nuevo" o "Cancelado".'))
+            
+            
