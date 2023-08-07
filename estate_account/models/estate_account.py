@@ -7,29 +7,13 @@ class EstateProperty(models.Model):
         # Primer paso: invalidar el método action_sold
         
         res = super(EstateProperty, self).action_mark_as_sold()
-
         estate_property = self.property_type_id
-        
-        move_types = [
-            ('entry', 'Journal Entry'),
-            ('out_invoice', 'Customer Invoice'),
-            ('out_refund', 'Customer Credit Note'),
-            ('in_invoice', 'Vendor Bill'),
-            ('in_refund', 'Vendor Credit Note'),
-            ('out_receipt', 'Sales Receipt'),
-            ('in_receipt', 'Purchase Receipt'),
-        ]
-
-        
         invoice_values = {
         'move_type': 'out_invoice'
-        # Otros campos de la factura
-        # ...
         }
         invoice = self.env['account.move'].create(invoice_values)
-        # Tercer paso: agregar líneas de factura 
         invoice_line_1 = {
-            'name': '6% del precio de venta',
+            'name': '6 del precio de venta',
             'quantity': 1,
             'price_unit': self.selling_price * 0.06,
         }

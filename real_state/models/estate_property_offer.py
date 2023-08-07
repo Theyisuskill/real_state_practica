@@ -60,17 +60,17 @@ class property_offer(models.Model):
     def create(self, vals):
         # Obtener la propiedad asociada a la oferta
         property_id = vals.get('property_id')
-        property = self.env['test.model_manuel'].browse(property_id)
+        property_state = self.env['test.model_manuel'].browse(property_id)
 
         # Verificar si el importe de la oferta es inferior al de una oferta existente
         existing_offer = self.search([('property_id', '=', property_id)], order='price desc', limit=1)
         if existing_offer and vals.get('price') < existing_offer.price:
-            raise UserError(('No puedes crear una oferta con un importe inferior al de una oferta existente.'))
+            raise UserError(('You cannot create an offer with an amount lower than an existing offer %s.' %property_state.best_price ))
 
         # Crear la oferta
         offer = super(property_offer, self).create(vals)
 
         # Establecer el estado de la propiedad en "Oferta recibida"
-        property.state = 'offer_received'
+        property_state.state = 'offer_received'
 
         return offer

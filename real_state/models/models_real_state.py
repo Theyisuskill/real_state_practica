@@ -42,21 +42,12 @@ class TestModel(models.Model):
     buyer_id = fields.Many2one("res.partner", string="Buyer", copy=False)
     seller_id = fields.Many2one(
         "res.users", string="Salesman", index=True, default=lambda self: self.env.user)
-    cozy_id= fields.Many2many("state_property.tag", required=True, )
+    tag= fields.Many2many("state_property.tag", required=True, )
     new_fiel_ids = fields.One2many('state_property.offer', 'property_id', string='Offers')
     total_area=fields.Float(compute="_compute_total")
     best_price= fields.Char(compute="_compute_description") 
     property_type_id = fields.Many2one("estate_property.type", )
-    move_type = fields.Selection(selection=[
-        ('entry', 'Journal Entry'),
-        ('out_invoice', 'Customer Invoice'),
-        ('out_refund', 'Customer Credit Note'),
-        ('in_invoice', 'Vendor Bill'),
-        ('in_refund', 'Vendor Credit Note'),
-        ('out_receipt', 'Sales Receipt'),
-        ('in_receipt', 'Purchase Receipt'),
-    ], string='Type', required=True, store=True, index=True, readonly=True, tracking=True,
-    default="entry", change_default=True)
+    
 
     
     @api.constrains('expected_price', 'selling_price')
@@ -117,6 +108,6 @@ class TestModel(models.Model):
     def _unlink_if_not_new_or_cancelled(self):
         for record in self:
             if record.state not in ['new', 'canceled']:
-                raise UserError(('No puedes eliminar una propiedad si su estado no es "Nuevo" o "Cancelado".'))
+                raise UserError(('You cannot delete a property if its status is not "New" or "Cancelled".'))
             
             

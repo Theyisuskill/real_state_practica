@@ -23,13 +23,11 @@ class property_type(models.Model):
     _sql_constraints = [
         ('unique_type_name',
          'UNIQUE(name)',
-         'El nombre de tipo de propiedad debe ser único.')
+         'The property type name must be unique.')
     ]
     
     def button_open_offers(self):
-        ''' Redirect the user to this payment journal.
-        :return:    An action on account.move.
-        '''
+        
         self.ensure_one()
         return {
             'name': _("Offers"),

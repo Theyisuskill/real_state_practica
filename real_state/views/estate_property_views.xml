@@ -15,7 +15,7 @@
                     <filter string="avalible" name="avalible" domain="[('state','in', ('new', 'offer_accepted'))]" />
                     <filter string="new" name="new" domain="[('state', '=', 'new')]" />
                     <filter string="offer received" name="offer_received" domain="[('state', '=', 'offer_received')]" />
-                    <filter string="offer accepted" name="offer_accepted" domain="[('state', '=', 'offer_accepted')]" />   
+                    <filter string="offer accepted" name="offer_accepted" domain="[('state', '=', 'offer_accepted')]" />
                     <filter string="sold" name="sold" domain="[('state', '=', 'sold')]" />
                     <filter string="canceled" name="canceled" domain="[('state', '=', 'canceled')]" />
                     <group expand="0" string="Group By">
@@ -31,12 +31,12 @@
         <field name="arch" type="xml">
             <form >
                 <header>
-                    <button name="action_mark_as_sold" string="Mark as Sold" states="new" type="object" groups="base.group_user"/>
-                    <button name="action_mark_as_sold" string="Mark as Sold" states="offer_accepted" class="oe_highlight" type="object" groups="base.group_user"/>
+                    <button name="action_mark_as_sold" string="Sold" states="new" type="object" groups="base.group_user"/>
+                    <button name="action_mark_as_sold" string="Sold" states="offer_accepted" class="oe_highlight" type="object" groups="base.group_user"/>
                     <button name="action_cancel" string="Cancel" class="oe_highlight" type="object" groups="base.group_user"  />
                     <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold" />
                 </header>
-                <sheet> 
+                <sheet>
                      <div class="oe_title">
                         <div class="oe_edit_only">
                             <label for="title"/>
@@ -48,7 +48,7 @@
                     <group >
                         <group>
                             <field name="property_type_id" string="type property" options="{'no_create': True, 'no_open': True}"/>
-                            <field name="cozy_id" string="tag" widget="many2many_tags" options="{'color_field': 'color', 'no_edit_color': False}"/>
+                            <field name="tag" string="tag" widget="many2many_tags" options="{'color_field': 'color', 'no_edit_color': False}"/>
                             <field name="postcode"/>
                             <field name="date_disponibility"/>
                         </group>
@@ -65,20 +65,20 @@
                                     <field name="description"/>
                                     <field name="date_availability"/>
                                     <field name="bedrooms"/>
-                                    <field name="living_area"/>     
-                                    <field name="active"/> 
-                                    <field name="total_area"></field>       
+                                    <field name="living_area"/>
+                                    <field name="active"/>
+                                    <field name="total_area"></field>
                                 </group>
                                 <group>
                                     <field name="avalible_date"/>
                                     <field name="facades"/>
                                     <field name="garage"/>
-                                    <field name="garden"/>                                    
+                                    <field name="garden"/>
                                     <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
                                     <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
                                     <field name="state"/>
                                 </group>
-                            </group> 
+                            </group>
                         </page>
                         <page string="Other info">
                             <group >
@@ -118,14 +118,55 @@
                     <field name="expected_price"/>
                     <field name="selling_price"/>
                     <field name="bedrooms"/>
-                    <field name="living_area"/>         
+                    <field name="living_area"/>
                     <field name="date_disponibility"/>
                     <field name="facades"/>
                     <field name="garden_area"/>
                     <field name="garden_orientation"/>
                     <field name="state"/>
-                    <field name="cozy_id" widget='many2many_tags'/>
+                    <field name="tag" widget='many2many_tags'/>
             </tree>
         </field>
     </record>
+
+
+
+    <record id="test_model_manuel_kanban_view" model="ir.ui.view">
+    <field name="name">test.model_manuel.view.kanban</field>
+    <field name="model">test.model_manuel</field>
+    <field name="arch" type="xml">
+        <kanban default_group_by="property_type_id" records_draggable="false">
+            <field name="title"/>
+            <field name="expected_price"/>
+            <field name="state" invisible="1"/>
+            <field name="best_price" />
+            <field name="selling_price"/>
+            <field name="tag"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_global_click">
+                        <div class="oe_kanban_details">
+                            <div>
+                            <strong style="font-size: 1.3em;"><t t-esc="record.title.raw_value"/></strong>
+                            </div>
+                            <div>
+                                expected price: <t t-esc="record.expected_price.raw_value"/>
+                            </div>
+                            <div t-if="record.best_price.raw_value">
+                                best price: <t t-esc="record.best_price.raw_value"/>
+                            </div>
+                            <div t-if="record.selling_price.raw_value">
+                                Sale price: <t t-esc="record.selling_price.raw_value"/>
+                            </div>
+                            <div >
+                                <field name="tag" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
 </odoo>

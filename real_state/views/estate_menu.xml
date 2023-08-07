@@ -3,7 +3,7 @@
     <record id="test_model_action" model="ir.actions.act_window">
         <field name="name">Real State</field>
         <field name="res_model">test.model_manuel</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,kanban</field>
         <field name="context">{'search_default_avalible': True}</field>
     </record>
 
